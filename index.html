@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shaunnea & Marcus | Our Love Story</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- LIGHT PURPLE THEME VARIABLES --- */
+        :root {
+            --primary-dark: #4B0082;       /* Indigo for text */
+            --primary-purple: #6A5ACD;     /* SlateBlue for elements */
+            --soft-lavender: #E6E6FA;      /* Background base */
+            --accent-pink: #DA70D6;        /* Orchid for highlights */
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-color: #483D8B;         /* Dark Slate Blue for readability */
+            --shadow: 0 8px 16px rgba(75, 0, 130, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            /* Light Purple Gradient Background */
+            background: linear-gradient(180deg, var(--soft-lavender) 0%, #D8BFD8 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) scale(0.5) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- LAYOUT UTILITIES --- */
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 10; /* Above falling hearts */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Fredoka One', cursive;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .pacifico {
+            font-family: 'Pacifico', cursive;
+            color: var(--primary-purple);
+        }
+
+        /* --- HEADER --- */
+        header {
+            padding: 40px 0 10px;
+        }
+        
+        .sub-header {
+            font-size: 1.1rem;
+            color: var(--primary-purple);
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* --- COUNTER --- */
+        .counter-box {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: var(--shadow);
+            border: 2px solid #fff;
+        }
+
+        .timer-grid {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .time-unit {
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            min-width: 65px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border: 1px solid var(--soft-lavender);
+        }
+
+        .time-num {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            display: block;
+        }
+
+        .time-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--primary-purple);
+            letter-spacing: 1px;
+        }
+
+        /* --- OPEN WHEN NOTES (NEW) --- */
+        .open-when-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .mood-btn {
+            background: white;
+            border: 2px solid var(--primary-purple);
+            border-radius: 15px;
+            padding: 15px 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+
+        .mood-btn:hover, .mood-btn:active {
+            background: var(--primary-purple);
+            transform: translateY(-5px);
+        }
+
+        .mood-btn:hover h4, .mood-btn:active h4 {
+            color: white;
+        }
+
+        .mood-icon {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .mood-btn h4 {
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            margin: 0;
+        }
+
+        /* --- LONG LETTER ENVELOPE --- */
+        .envelope-container {
+            margin: 40px auto;
+            perspective: 1000px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .envelope-visual {
+            background: var(--primary-dark);
+            height: 180px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Pacifico', cursive;
+            font-size: 1.8rem;
+            position: relative;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        
+        .envelope-visual::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border: 2px dashed var(--soft-lavender);
+            border-radius: 10px;
+            margin: 10px;
+            opacity: 0.5;
+        }
+
+        .envelope-container:active .envelope-visual {
+            transform: scale(0.95);
+        }
+
+        /* --- MUSIC PLAYER (STYLED LIGHT) --- */
+        .player-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--primary-purple);
+        }
+
+        .song-info h3 { margin: 0; font-size: 1.1rem; }
+        .song-info p { font-size: 0.9rem; color: #888; margin-bottom: 15px; }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .ctrl-btn {
+            background: var(--soft-lavender);
+            color: var(--primary-dark);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: 0.2s;
+        }
+
+        .ctrl-btn.main-play {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-purple);
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .ctrl-btn:active { transform: scale(0.9); }
+
+        /* --- PHOTO GALLERY --- */
+        .gallery-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px 5px;
+            margin-bottom: 30px;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+        }
+        .gallery-scroll::-webkit-scrollbar { display: none; }
+
+        .polaroid {
+            min-width: 140px;
+            background: white;
+            padding: 10px 10px 25px 10px;
+            box-shadow: var(--shadow);
+            transform: rotate(-3deg);
+            transition: transform 0.3s;
+        }
+        
+        .polaroid:nth-child(even) { transform: rotate(3deg); }
+        .polaroid:active { transform: scale(1.05) rotate(0); }
+
+        .polaroid img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 2px;
+            background: #eee;
+        }
+
+        .polaroid p {
+            font-family: 'Pacifico', cursive;
+            color: var(--primary-purple);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        /* --- MODAL (For Letters/Notes) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(75, 0, 130, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            max-height: 80vh;
+            overflow-y: auto;
+            text-align: left;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            animation: pulse 0.3s ease-out;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--soft-lavender);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: bold;
+            color: var(--primary-dark);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            font-family: 'Nunito', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+        
+        .modal-body h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--primary-purple);
+        }
+
+        /* --- FALLING HEARTS --- */
+        .heart {
+            position: fixed;
+            color: var(--primary-purple);
+            font-size: 1.5rem;
+            pointer-events: none;
+            z-index: 5;
+            animation: floatUp 6s linear forwards;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 40px 20px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            color: var(--primary-dark);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="pacifico" style="font-size: 2rem;">Shaunnea & Marcus</div>
+            <div class="sub-header">Since April 15, 2024</div>
+            <p>Happy Valentine's Day 2026 💜</p>
+        </header>
+
+        <!-- COUNTER -->
+        <section class="counter-box">
+            <h3>Time Together</h3>
+            <div class="timer-grid" id="timer">
+                <div class="time-unit"><span class="time-num" id="days">0</span><span class="time-label">Days</span></div>
+                <div class="time-unit"><span class="time-num" id="hours">0</span><span class="time-label">Hours</span></div>
+                <div class="time-unit"><span class="time-num" id="minutes">0</span><span class="time-label">Mins</span></div>
+                <div class="time-unit"><span class="time-num" id="seconds">0</span><span class="time-label">Secs</span></div>
+            </div>
+        </section>
+
+        <!-- OPEN WHEN NOTES -->
+        <section>
+            <h2>Open When...</h2>
+            <p style="font-size:0.9rem; margin-bottom:15px;">Click a mood for a surprise note 💕</p>
+            <div class="open-when-grid">
+                <div class="mood-btn" onclick="showNote('sad')">
+                    <span class="mood-icon">🌧️</span>
+                    <h4>You Feel Sad</h4>
+                </div>
+                <div class="mood-btn" onclick="showNote('happy')">
+                    <span class="mood-icon">😄</span>
+                    <h4>You're Happy</h4>
+                </div>
+                <div class="mood-btn" onclick="showNote('miss')">
+                    <span class="mood-icon">✈️</span>
+                    <h4>You Miss Me</h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPECIAL LETTER -->
+        <section>
+            <h2>A Special Letter</h2>
+            <div class="envelope-container" onclick="openLongLetter()">
+                <div class="envelope-visual">
+                    Tap to Read 💌
+                </div>
+            </div>
+        </section>
+
+        <!-- MUSIC PLAYER -->
+        <section class="player-card">
+            <div class="song-info">
+                <h3 id="track-name">Far Away</h3>
+                <p id="track-artist">Nickelback</p>
+            </div>
+            <div class="controls">
+                <button class="ctrl-btn" onclick="prevTrack()">⏮</button>
+                <button class="ctrl-btn main-play" id="play-btn" onclick="togglePlay()">▶</button>
+                <button class="ctrl-btn" onclick="nextTrack()">⏭</button>
+            </div>
+            <audio id="audio-player"></audio>
+        </section>
+
+        <!-- GALLERY -->
+        <section>
+            <h2>Memories</h2>
+            <div class="gallery-scroll">
+                <!-- REPLACE SRC WITH YOUR FILES (e.g., 'image.png') -->
+                <div class="polaroid">
+                    <img src="https://picsum.photos/seed/sad/200/200" alt="Neo Date" id="img1">
+                    <p>Neo Dates</p>
+                </div>
+                <div class="polaroid">
+                    <img src="https://picsum.photos/seed/happy/200/200" alt="Coffee" id="img2">
+                    <p>Fairview Coffee</p>
+                </div>
+                <div class="polaroid">
+                    <img src="https://picsum.photos/seed/miss/200/200" alt="Christmas" id="img3">
+                    <p>1st Christmas</p>
+                </div>
+                <div class="polaroid">
+                    <img src="https://picsum.photos/seed/love/200/200" alt="Us" id="img4">
+                    <p>Us</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            Made with purple love for Shaunnea
+        </footer>
+    </div>
+
+    <!-- MODAL FOR NOTES & LETTERS -->
+    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModalDirect()">×</button>
+            <div id="modal-text" class="modal-body">
+                <!-- Content injected via JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- CONFIGURATION --- */
+        const playlist = [
+            { title: "Far Away", artist: "Nickelback", src: "far_away.mp3" },
+            { title: "Home", artist: "Daughtry", src: "home.mp3" },
+            { title: "The Flame", artist: "Six Part Invention", src: "the_flame.mp3" }
+        ];
+
+        const userImages = {
+            img1: "image.png",
+            img2: "image2.png",
+            img3: "image3.png",
+            img4: "image4.png"
+        };
+
+        /* --- IMAGE LOGIC --- */
+        function loadImages() {
+            for (const [id, src] of Object.entries(userImages)) {
+                const img = document.getElementById(id);
+                if(img) img.src = src;
+            }
+        }
+        loadImages();
+
+        /* --- COUNTER --- */
+        const startDate = new Date("April 15, 2024 00:00:00").getTime();
+        
+        function updateCounter() {
+            const now = new Date().getTime();
+            const distance = now - startDate;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days;
+            document.getElementById("hours").innerText = hours;
+            document.getElementById("minutes").innerText = minutes;
+            document.getElementById("seconds").innerText = seconds;
+        }
+        setInterval(updateCounter, 1000);
+        updateCounter();
+
+        /* --- MUSIC PLAYER --- */
+        let currentTrack = 0;
+        let isPlaying = false;
+        const audio = document.getElementById('audio-player');
+        const playBtn = document.getElementById('play-btn');
+        const trackName = document.getElementById('track-name');
+        const trackArtist = document.getElementById('track-artist');
+
+        function loadTrack(index) {
+            trackName.innerText = playlist[index].title;
+            trackArtist.innerText = playlist[index].artist;
+            audio.src = playlist[index].src;
+        }
+
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.innerText = "▶";
+                isPlaying = false;
+            } else {
+                audio.play().catch(() => alert("Please add your MP3 files to the folder!"));
+                playBtn.innerText = "⏸";
+                isPlaying = true;
+            }
+        }
+        function nextTrack() {
+            currentTrack = (currentTrack + 1) % playlist.length;
+            loadTrack(currentTrack);
+            if(isPlaying) audio.play();
+        }
+        function prevTrack() {
+            currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+            loadTrack(currentTrack);
+            if(isPlaying) audio.play();
+        }
+        loadTrack(0);
+
+        /* --- MODAL LOGIC --- */
+        const modal = document.getElementById('modal');
+        const modalText = document.getElementById('modal-text');
+
+        function openModalContent(title, contentHTML) {
+            modalText.innerHTML = `<h2>${title}</h2><div>${contentHTML}</div>`;
+            modal.style.display = "flex";
+        }
+
+        function closeModal(e) {
+            if (e.target === modal) modal.style.display = "none";
+        }
+
+        function closeModalDirect() {
+            modal.style.display = "none";
+        }
+
+        /* --- OPEN WHEN NOTES --- */
+        const notesData = {
+            sad: `
+                <p>My Dearest Shaunnea,</p>
+                <br>
+                <p>I know sometimes days feel heavy and the world seems a bit grey. But remember, you are never alone in this. I am just a phone call away, always ready to be your listener, your support, and your biggest fan.</p>
+                <br>
+                <p>You are stronger than you know, and even the darkest nights end with a sunrise. Take a deep breath, feel my hug through this screen, and know that I love you endlessly.</p>
+                <br>
+                <p style="text-align:right;">- Love, Marcus</p>
+            `,
+            happy: `
+                <p>Hey Beautiful!</p>
+                <br>
+                <p>Seeing you happy makes my heart feel like it's going to burst! Your joy is contagious, and it's one of the millions of reasons why I fell in love with you.</p>
+                <br>
+                <p>Dance around, smile big, and soak in this moment. You deserve every bit of happiness this world has to offer. Let's celebrate this feeling together soon!</p>
+                <br>
+                <p style="text-align:right;">Yours, Marcus</p>
+            `,
+            miss: `
+                <p>To my favorite person,</p>
+                <br>
+                <p>I miss you too. More than words can really say. It feels like a part of me is missing when we aren't together.</p>
+                <br>
+                <p>Just close your eyes and imagine me holding your hand. I'm counting down the seconds until I can see your face, hear your laugh, and hold you tight. You are my home, no matter where I am.</p>
+                <br>
+                <p style="text-align:right;">Missing you, Marcus</p>
+            `
+        };
+
+        function showNote(mood) {
+            const titles = { sad: "For When You're Sad 🌧️", happy: "For When You're Happy 😄", miss: "For When You Miss Me ✈️" };
+            openModalContent(titles[mood], notesData[mood]);
+        }
+
+        /* --- LONG HEARTFELT LETTER --- */
+        const longLetter = `
+            <p><strong>My Dearest Shaunnea,</strong></p>
+            <br>
+            <p>As I sit here writing this, I’m overwhelmed by how lucky I am to have you in my life. From the moment our paths crossed on April 15, 2024, I knew my life was about to change for the better.</p>
+            <br>
+            <p>I think back to our <strong>Neo dates</strong> and the excitement of just exploring the world together. I remember that <strong>coffee date at Fairview Terraces</strong>, just sitting there, talking, and realizing that I could do this every single day for the rest of my life. And our <strong>first Christmas together</strong>? That was pure magic. Waking up knowing you were mine was the best gift I could ever ask for.</p>
+            <br>
+            <p>You bring so much color to my world—specifically my favorite shade of purple. You are kind, smart, beautiful, and you make me want to be a better man. Thank you for choosing me, for loving me, and for being my best friend.</p>
+            <br>
+            <p>Here’s to us, to today, and to a future filled with endless tulips, coffee runs, and love.</p>
+            <br>
+            <p style="text-align:right; font-family:'Pacifico'; font-size:1.2rem;">Forever yours,<br>Marcus 💜</p>
+        `;
+
+        function openLongLetter() {
+            openModalContent("A Letter for You 💌", longLetter);
+        }
+
+        /* --- FALLING PURPLE HEARTS --- */
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '💜'; // Using Purple Heart Emoji
+            
+            // Randomize position
+            heart.style.left = Math.random() * 95 + 'vw';
+            
+            // Randomize size
+            const size = Math.random() * 20 + 15; // 15px to 35px
+            heart.style.fontSize = size + 'px';
+            
+            // Randomize shade of purple
+            const purpleShades = ['#9370DB', '#8A2BE2', '#BA55D3', '#6A5ACD', '#483D8B'];
+            heart.style.color = purpleShades[Math.floor(Math.random() * purpleShades.length)];
+            
+            // Randomize speed
+            const duration = Math.random() * 3 + 4; // 4 to 7 seconds
+            heart.style.animationDuration = duration + 's';
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, duration * 1000);
+        }
+
+        // Create hearts frequently
+        setInterval(createHeart, 600);
+
+    </script>
+</body>
+</html>
